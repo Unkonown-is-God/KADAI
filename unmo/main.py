@@ -63,4 +63,4 @@ if __name__ == '__main__':
 
         response = proto.dialogue(text)
         print('{prompt}{response}'.format(prompt=build_prompt(proto),
-                                          response=response))
+                                          response=response))#{}のなかのやつと.formatのやつは名前をあわせる
