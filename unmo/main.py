@@ -1,23 +1,66 @@
 class Responder:
-    def __init__(self,name):#はじめに処理される
-        self._name=name
-    def response(self,text):#考え出された応答を返す
-        return '{}ってなに?'.format(text)
-    def name(self):#レスポンダーの名前
-        return self._name
-class Unmo:
-    def __init__(self,name):#はじめに処理される
-        self._name=name
-        self._responder=Responder('what')
-    def dialogue(self,text):#応答を表示する
-        print(self._responder.response(text))
+    """AIの応答を制御するクラス。
+    プロパティ:
+    name -- Responderオブジェクトの名前
+    """
+
+    def __init__(self, name):
+        """文字列を受け取り、自身のnameに設定する。"""
+        self._name = name
+
+    def response(self, text):
+        """ユーザーからの入力(text)を受け取り、AIの応答を生成して返す。"""
+        return '{}ってなに？'.format(text)
+
     @property
     def name(self):
-        #unmoの名前
+        """応答オブジェクトの名前"""
         return self._name
+
+
+class Unmo:
+    """人工無脳コアクラス。
+    プロパティ:
+    name -- 人工無脳コアの名前
+    responder_name -- 現在の応答クラスの名前
+    """
+
+    def __init__(self, name):
+        """文字列を受け取り、コアインスタンスの名前に設定する。
+        ’What' Responderインスタンスを作成し、保持する。
+        """
+        self._name = name
+        self._responder = Responder('What')
+
+    def dialogue(self, text):
+        """ユーザーからの入力を受け取り、Responderに処理させた結果を返す。"""
+        return self._responder.response(text)
+
     @property
-    def responde_name(self):
-        #レスポンダーの名前
+    def name(self):
+        """unmoの名前"""
+        return self._name
+
+    @property
+    def responder_name(self):
+        """Responderの名前"""
         return self._responder.name
-muno=Unmo(input())
-muno.dialogue(input())
+
+
+def build_prompt(unmo):
+    """AIインスタンスを取り、AIとResponderの名前を整形して返す"""
+    return '{name}:{responder}> '.format(name=unmo.name,
+                                         responder=unmo.responder_name)
+
+
+if __name__ == '__main__':
+    print('Unmo System prototype : proto')
+    proto = Unmo('proto')
+    while True:
+        text = input('> ')
+        if not text:
+            break
+
+        response = proto.dialogue(text)
+        print('{prompt}{response}'.format(prompt=build_prompt(proto),
+                                          response=response))
