@@ -3,5 +3,6 @@ class Responder:
          self._name=name
      def response(self,text):#考え出された応答を返す
          return '{}ってなに?'.format(text)
+     @property
      def name(self):#レスポンダーの名前
          return self._name
