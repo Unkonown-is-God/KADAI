@@ -6,23 +6,26 @@ class Unmo:
     name -- 人工無脳コアの名前
     responder_name -- 現在の応答クラスの名前
     """
+    #名前の設定を行うクラスだよ
 
     def __init__(self, name):
         """文字列を受け取り、コアインスタンスの名前に複数設定する。"""
         self._name = name#Unmoの名前を設定している
-        self._responders = {RandomResponder('random')
+        self._responders = {'what':WhatResponder('what'),'random':RandomResponder('random')}
+        self._responder = self._responders['random']#登録された関数をここで指定して呼びだしている
+                                                    #呼び出された関数は名前を_responderに返している
     def dialogue(self, text):
         """ユーザーからの入力を受け取り、Responderに処理させた結果を返す。"""
         return self._responder.response(text)
 
     @property
     def name(self):
-        """unmoの名前"""
+        """unmoの名前を返す"""
         return self._name
 
     @property
     def responder_name(self):
-        """Responderの名前"""
+        """Responderの名前を返す"""
         return self._responder.name
 
 
