@@ -8,11 +8,9 @@ class Unmo:
     """
 
     def __init__(self, name):
-        """文字列を受け取り、コアインスタンスの名前に設定する。
-        ’What' Responderインスタンスを作成し、保持する。
-        """
-        self._name = name
-        self._responder = RandomResponder('random')
+        """文字列を受け取り、コアインスタンスの名前に複数設定する。"""
+        self._name = name#Unmoの名前を設定している
+        self._responders = {RandomResponder('random')
     def dialogue(self, text):
         """ユーザーからの入力を受け取り、Responderに処理させた結果を返す。"""
         return self._responder.response(text)
