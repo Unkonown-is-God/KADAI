@@ -11,7 +11,7 @@ class Unmo:
     def __init__(self, name):
         """文字列を受け取り、コアインスタンスの名前に複数設定する。"""
         self._name = name#Unmoの名前を設定している
-        self._responders = {'what':WhatResponder('what'),'random':RandomResponder('random')}
+        self._responders = {'random':RandomResponder('random')}
         self._responder = self._responders['random']#登録された関数をここで指定して呼びだしている
                                                     #呼び出された関数は名前を_responderに返している
     def dialogue(self, text):

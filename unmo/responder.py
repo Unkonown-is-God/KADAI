@@ -7,7 +7,7 @@ class Responder:
      @property
      def name(self):#レスポンダーの名前
          return self._name
-class WhatResponder(Responder):
+class WhatResponder(Responder):#かっこのなかでResponderを呼び出しているよ
     def response(self,text):
         return '{}ってなに？'.format(text)#なにってきく
 class RandomResponder(Responder):
