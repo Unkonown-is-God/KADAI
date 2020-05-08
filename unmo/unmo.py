@@ -1,4 +1,5 @@
-from responder import Responder 
+
+from responder import RandomResponder
 class Unmo:
     """人工無脳コアクラス。
     プロパティ:
@@ -11,8 +12,7 @@ class Unmo:
         ’What' Responderインスタンスを作成し、保持する。
         """
         self._name = name
-        self._responder = Responder('What')
-
+        self._responder = RandomResponder('random')
     def dialogue(self, text):
         """ユーザーからの入力を受け取り、Responderに処理させた結果を返す。"""
         return self._responder.response(text)
