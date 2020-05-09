@@ -5,7 +5,7 @@ def build_prompt(unmo):
                                          responder=unmo.responder_name)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':#main.pyがターミナルで実行されているのかを判別
     print('Unmo System prototype : proto')
     proto = Unmo('proto')
     while True:

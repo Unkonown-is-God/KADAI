@@ -7,14 +7,21 @@ class Responder:
      @property
      def name(self):#レスポンダーの名前
          return self._name
-class WhatResponder(Responder):#かっこのなかでResponderを呼び出しているよ
+class WhatResponder(Responder):#Responderを継承している
     def response(self,text):
         return '{}ってなに？'.format(text)#なにってきく
 class RandomResponder(Responder):
-    RESPONSES=['今日は寒いね','チョコ食べたい','昨日十円拾った']#レスポンスの内容 クラス変数だよ
-    def __init__(self,name):
-        self._name=name #ランダムの名前
+    def __init__(self,name):#Responderの__init__をオーバーライド　親の__init__は自動的に呼び出されない
+        super().__init__(name) #ランダムの名前 親の__init__を呼び出している
+                               #__init__のnameを親に渡している
+        self._responses=[]#からのリスト
+        with open('dict/random.txt','r',encoding='utf-8') as f:
+            #txtの文字コードはutf-8にして 読み込みモードで開いているよ withを使うと勝手に閉じてくれるよ　
+            for line in f:#一行ずつfの内容を読み取りlineに渡される
+                if line:#lineの中身が空じゃないとき
+                    line=line.strip()#lineの空白や改行コードが消される
+                    self._responses.append(line)#lineの中身が_responsesに追加される
     def response(self,_):
         #ユーザーから入力を受け取るよてい
-        return choice(RandomResponder.RESPONSES)
+        return choice(self._responses)
 
