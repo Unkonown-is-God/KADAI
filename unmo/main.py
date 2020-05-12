@@ -15,4 +15,5 @@ if __name__ == '__main__':#main.pyがターミナルで実行されているの�
 
         response = proto.dialogue(text)
         print('{prompt}{response}'.format(prompt=build_prompt(proto),
-                                          response=response))#{}のなかのやつと.formatのやつは名前をあわせる
+                                          response=response))#{}のなかのやつと.formatのやつは名前をあわせ
+    proto.save()
