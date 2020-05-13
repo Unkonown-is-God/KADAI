@@ -1,4 +1,4 @@
-from random import choice
+from random import choice,randrange
 from responder import RandomResponder,WhatResponder,PatternResponder
 from dictionary import Dictionary
 
@@ -23,9 +23,14 @@ class Unmo:
                                                     #呼び出されたクラスはインスタンス化される（要するに__init__が動く)
     def dialogue(self, text):
         """ユーザーからの入力を受け取り、Responderに処理させた結果を返す。"""
-        chosen_key=choice(list(self._responders.keys()))#辞書型のdict_keysをlistでリスト型にして返している
-                                                        #それをchoiceでランダムに返す
-        self._responder=self._responders[chosen_key]#ランダムに選ばれた応答クラスをインスタンス化
+        chance=randrange(0,100)#random.randomではfloat型なのでrandrangeを使う
+                               #ランダムに0から１００を生成
+        if chance in range(0,60):#rangeはint型　０から５９
+            self._responder=self._responders['pattern']
+        elif chance in range(60,90):#rangeはstart<=x<stop この場合60以上９０未満
+            self._responder=self._responders['random']
+        else:
+            self._responder=self._responders['what']
         response = self._responder.response(text)
         self._dictionary.study(text)
         return response
