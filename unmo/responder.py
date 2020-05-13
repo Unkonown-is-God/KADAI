@@ -15,7 +15,7 @@ class PatternResponder(Responder):
         #パターンに合わせてフレーズを返す
         for ptn in self._dictionary.pattern:
             #unmoからdictionaryを持ってくる　そしてパターンの分だけ回す
-            matcher = re.match(ptn['pattern'],text)
+            matcher = re.search(ptn['pattern'],text)
             #patternで登録されてるやつと入力された文字列を比較
             if matcher:
                 chosen_response=choice(ptn['phrases'])
