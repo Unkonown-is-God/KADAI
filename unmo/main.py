@@ -12,8 +12,12 @@ if __name__ == '__main__':#main.pyがターミナルで実行されているの�
         text = input('> ')
         if not text:
             break
-
-        response = proto.dialogue(text)
-        print('{prompt}{response}'.format(prompt=build_prompt(proto),
+        try:
+            response=proto.dialogue(text)
+        except IndexError as error:
+            print('{}: {}'.format(type(error).__name__,str(error)))
+            print('辞書が空です(Responder:{})'.format(proto.responder_name))
+        else:
+            print('{prompt}{response}'.format(prompt=build_prompt(proto),
                                           response=response))#{}のなかのやつと.formatのやつは名前をあわせ
     proto.save()

@@ -1,0 +1,2 @@
+3	%noun%%noun%に%noun%するな
+1	%noun%

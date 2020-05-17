@@ -1,6 +1,7 @@
 from random import choice,randrange
-from responder import RandomResponder,WhatResponder,PatternResponder
+from responder import RandomResponder,WhatResponder,PatternResponder,TemplateResponder
 from dictionary import Dictionary
+import morph
 
 class Unmo:
     """人工無脳コアクラス。
@@ -17,6 +18,7 @@ class Unmo:
         self._responders = {'random':RandomResponder('Random',self._dictionary),#辞書型でクラスを登録
                             'what':WhatResponder('What',self._dictionary),
                             'pattern':PatternResponder('Pattern',self._dictionary),
+                            'template':TemplateResponder('template',self._dictionary)
                             }
         self._responder = self._responders['pattern']#登録されたクラスをここで指定して呼びだしている
                                                     #初期設定としてrandom
@@ -25,14 +27,17 @@ class Unmo:
         """ユーザーからの入力を受け取り、Responderに処理させた結果を返す。"""
         chance=randrange(0,100)#random.randomではfloat型なのでrandrangeを使う
                                #ランダムに0から１００を生成
-        if chance in range(0,60):#rangeはint型　０から５９
+        if chance in range(0,40):#rangeはint型　０から５９
             self._responder=self._responders['pattern']
-        elif chance in range(60,90):#rangeはstart<=x<stop この場合60以上９０未満
+        elif chance in range(40,70):#rangeはstart<=x<stop この場合60以上９０未満
+            self._responder=self._responders['template']
+        elif chance in range(70,90):
             self._responder=self._responders['random']
         else:
             self._responder=self._responders['what']
-        response = self._responder.response(text)
-        self._dictionary.study(text)
+        parts=morph.analyze(text)
+        response = self._responder.response(text,parts)
+        self._dictionary.study(text,parts)
         return response
 
     def save(self):
