@@ -1,4 +1,6 @@
 import morph
+from　markov import Markov
+from util import format_error
 from collections import defaultdict
 import os.path
 class Dictionary:
@@ -14,17 +16,31 @@ class Dictionary:
 
     DICT={'random':'dics/random.txt',
           'pattern':'dics/pattern.txt',
-          'template':'dics/template.txt'}
+          'template':'dics/template.txt',
+          'markov':'dics/markov.dat'}
     
     def __init__(self):
         Dictionary.touch_dics()
         #ファイルからリストを作る
-        with open (Dictionary.DICT['random'],'r',encoding='utf-8') as f:
-            self._random=[x for x in f.read().splitlines() if x]#リスト内表記で検索
-        with open(Dictionary.DICT['pattern'],'r',encoding='utf-8') as f:
+        self._random=Dictionary.load_random(Dictionary.DICT['random'])
+        self._pattern=Dictionary.load_pattern(Dictionary.DICT['pattern'])
+        self._template=Dictionary.load_template(Dictionary.DICT['template'])
+        self._markov=Dictionary.load_markov(Dictionary.DICT['markov'])
+    @staticmethod
+    def load_random(filename):
+        try:
+            with open (filename,'r',encoding='utf-8') as f:
+                return [x for x in f.read().splitlines() if x]#リスト内表記で検索
+        except IOError as e:
+            print(format_error(e))
+    @staticmethod
+    def load_pattern(filename):
+        with open(filename,'r',encoding='utf-8') as f:
             self._pattern=[Dictionary.make_pattern(x) for x in f.read().splitlines() if x]
             #リスト型に辞書型のデータを入れる　そのままはつかえない
-        with open(Dictionary.DICT['template'],'r',encoding='utf-8') as f:
+    @staticmethod
+    def load_template(filename):
+        with open(filename,'r',encoding='utf-8') as f:
             self._template=defaultdict(lambda:[],{})
             #_templateの初期値を[]に設定
             for line in f:
@@ -33,6 +49,10 @@ class Dictionary:
                 if count and template:
                     count = int(count)
                     self._template[count].append(template)
+    @staticmethod
+    def load_markov(filename):
+        
+
 
     def study(self,text,parts):
         self.study_random(text)
@@ -88,9 +108,9 @@ class Dictionary:
     def touch_dics():
         #辞書ファイルをなければつくる
         for dic in Dictionary.DICT.values():
-            #value keyをぬいた辞書データの値を返す リスト型で
+            #values keyをぬいた辞書データの値を返す リスト型で
             if not os.path.exists(dic):
-                #dicというファイルがあるかどうか確認bool型で返す
+                #dic変数ないの文字列と一致するファイルがあるかどうか確認bool型で返す
                 open(dic,'w').close
     @staticmethod#クラス内で使う
     def make_pattern(line):#staticにはselfはいらん

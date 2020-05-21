@@ -89,3 +89,14 @@ class Markov:
 
         return ''.join(words)
         #生成された文章を返す
+
+    def load(self,filename):
+        #filenameから辞書を読み取る
+        with open(filename,'rb') as f:
+            self._dic,self._starts=dill.load(f)
+        #numpayに変更予定
+    
+    def save(self,filename):
+        #filenameのファイルへ辞書データを書き込む
+        with open(filename,'wb') as f:
+            dill.dump((self._dic,self._starts),f)

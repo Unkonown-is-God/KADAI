@@ -8,3 +8,5 @@ def analyze(text):
 def is_keyword(part):
     return bool(re.match(r'名詞,(一般|代名詞|固有名詞|サ変接続|形容動詞語幹)',part))
 
+if __name__ == "__main__":
+    print(analyze(input()))
