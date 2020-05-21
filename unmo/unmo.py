@@ -18,7 +18,8 @@ class Unmo:
         self._responders = {'random':RandomResponder('Random',self._dictionary),#辞書型でクラスを登録
                             'what':WhatResponder('What',self._dictionary),
                             'pattern':PatternResponder('Pattern',self._dictionary),
-                            'template':TemplateResponder('template',self._dictionary)
+                            'template':TemplateResponder('template',self._dictionary),
+                            'markov':
                             }
         self._responder = self._responders['pattern']#登録されたクラスをここで指定して呼びだしている
                                                     #初期設定としてrandom

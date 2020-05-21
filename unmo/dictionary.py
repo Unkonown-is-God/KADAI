@@ -1,5 +1,5 @@
 import morph
-from　markov import Markov
+from markov import Markov
 from util import format_error
 from collections import defaultdict
 import os.path
@@ -35,29 +35,42 @@ class Dictionary:
             print(format_error(e))
     @staticmethod
     def load_pattern(filename):
-        with open(filename,'r',encoding='utf-8') as f:
-            self._pattern=[Dictionary.make_pattern(x) for x in f.read().splitlines() if x]
-            #リスト型に辞書型のデータを入れる　そのままはつかえない
+        try:
+            with open(filename,'r',encoding='utf-8') as f:
+                return [Dictionary.make_pattern(x) for x in f.read().splitlines() if x]
+                #リスト型に辞書型のデータを入れる　そのままはつかえない
+        except IOError as e:
+            print(format_error(e))
+            return []
     @staticmethod
     def load_template(filename):
-        with open(filename,'r',encoding='utf-8') as f:
-            self._template=defaultdict(lambda:[],{})
-            #_templateの初期値を[]に設定
-            for line in f:
-                count,template=line.strip().split('\t')
-                #countには置き換え部分の数　templateはテンプレートの文字列
-                if count and template:
-                    count = int(count)
-                    self._template[count].append(template)
+        templates=defaultdict(lambda:[],{})
+        try:
+            with open(filename,'r',encoding='utf-8') as f:
+                #_templateの初期値を[]に設定
+                for line in f:
+                    count,template=line.strip().split('\t')
+                    #countには置き換え部分の数　templateはテンプレートの文字列
+                    if count and template:
+                        count = int(count)
+                        templates[count].append(template)
+        except IOError as e:
+            print(format_error(e))
+        return templates
     @staticmethod
     def load_markov(filename):
-        
-
+        markov=Markov()
+        try:
+            markov.load(filename)
+        except IOError as e:
+            print(format_error(e))
+        return markov
 
     def study(self,text,parts):
-        self.study_random(text)
-        self.study_pattern(text,parts)
-        self.study_template(parts)
+        study_random(text)
+        study_pattern(text,parts)
+        study_template(parts)
+        study_markov(parts)
     def study_random(self,text):
         if not text in self._random:
             self._random.append(text)
@@ -91,6 +104,8 @@ class Dictionary:
         if count>0 and template not in self._template[count]:
             #templateがテンプレートtxtの中になかったら追加
             self._template[count].append(template)
+    def study_markov(self,parts):
+       self._markov.add_sentence(parts) 
 
     def save(self):
         #メモリ上の辞書をファイルに記録
@@ -104,6 +119,7 @@ class Dictionary:
                 for template in templates:
                     #リスト型で保存されていたtemplatesを解体
                     f.write('{}\t{}\n'.format(count,template))
+        self._markov.save(Dictionary.DICT['markov'])
     @staticmethod
     def touch_dics():
         #辞書ファイルをなければつくる
@@ -130,3 +146,6 @@ class Dictionary:
     @property
     def template(self):
         return self._template
+    @property
+    def markov(self):
+        return self._markov

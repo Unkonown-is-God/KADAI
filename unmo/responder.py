@@ -1,6 +1,7 @@
 from random import choice #pythonにもとからあるランダムモジュールのチョイスだけインポーと
 import re
 import morph
+from markov import Markov
 class Responder:
      def __init__(self,name,dictionary):#はじめに処理される
          self._name=name
@@ -46,3 +47,9 @@ class TemplateResponder(Responder):
                         #一個置換
                 return template
         return choice(self._dictionary.random)
+class MarkovResponder(Responder):
+    def response(self,_,parts):
+        keyword=next((w for w,p in parts if morph.is_keyword(p)))
+        response = self._dictionary.markov.generate(keyword)
+        return response if response else choice(self._dictionary.random)
+

@@ -65,7 +65,7 @@ class Markov:
             return None
 
         prefix1=keyword if self._dic[keyword] else choise(list(self._dic.keys()))
-        #keyword が　辞書に登録されていれば次の単語を代入　登録されていなければランダムに代入
+        #keyword が　辞書に登録されていればkeywordを代入　登録されていなければランダムに代入
 
         prefix2=chice(list(self._dic[prefix1].keys()))
         #prefix2をランダムで代入
