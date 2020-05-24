@@ -42,7 +42,7 @@ class Markov:
 
         for suffix,_ in parts:
             #品詞は使わないので_
-            self._add_surffix(prefix1,prefix2,suffix)
+            self._add_suffix(prefix1,prefix2,suffix)
             #下に宣言されている
             #辞書型の中のリスト型にどんどん追記していく
 
@@ -64,10 +64,10 @@ class Markov:
         if not self._dic:
             return None
 
-        prefix1=keyword if self._dic[keyword] else choise(list(self._dic.keys()))
+        prefix1=keyword if self._dic[keyword] else choice(list(self._dic.keys()))
         #keyword が　辞書に登録されていればkeywordを代入　登録されていなければランダムに代入
 
-        prefix2=chice(list(self._dic[prefix1].keys()))
+        prefix2=choice(list(self._dic[prefix1].keys()))
         #prefix2をランダムで代入
 
         words=[prefix1,prefix2]
@@ -87,7 +87,7 @@ class Markov:
             prefix1,prefix2=prefix2,suffix
             #prefix1,2を更新
 
-        return ''.join(words)
+        return ''.join(map(str,words))
         #生成された文章を返す
 
     def load(self,filename):

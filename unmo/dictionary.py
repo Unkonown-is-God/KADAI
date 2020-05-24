@@ -64,13 +64,15 @@ class Dictionary:
             markov.load(filename)
         except IOError as e:
             print(format_error(e))
+        except EOFError:
+            print('q')
         return markov
 
     def study(self,text,parts):
-        study_random(text)
-        study_pattern(text,parts)
-        study_template(parts)
-        study_markov(parts)
+        self.study_random(text)
+        self.study_pattern(text,parts)
+        self.study_template(parts)
+        self.study_markov(parts)
     def study_random(self,text):
         if not text in self._random:
             self._random.append(text)
