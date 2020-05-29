@@ -33,7 +33,7 @@ class Markov:
         #pythonの　a=b は　*a=&bと同意義　aの値を変えるとbの値まで変更してしまう
         #変更したくないときはcopyをしよう！
 
-        prefix1,prefix2=parts.pop(0),parts.pop(0)
+        prefix1,prefix2=parts.pop(0)[0],parts.pop(0)[0]
         #文章の頭に単語を代入
 
         #下にメソッドが宣言されている
@@ -70,6 +70,7 @@ class Markov:
         prefix2=choice(list(self._dic[prefix1].keys()))
         #prefix2をランダムで代入
 
+
         words=[prefix1,prefix2]
         #生成される文章の依り代
 
@@ -92,11 +93,17 @@ class Markov:
 
     def load(self,filename):
         #filenameから辞書を読み取る
-        with open(filename,'rb') as f:
-            self._dic,self._starts=dill.load(f)
+        try:
+            with open(filename,'rb') as f:
+                self._dic,self._starts=dill.load(f)
         #numpayに変更予定
+        except TypeError:
+            pass
     
     def save(self,filename):
         #filenameのファイルへ辞書データを書き込む
         with open(filename,'wb') as f:
             dill.dump((self._dic,self._starts),f)
+
+    
+
