@@ -1,4 +1,5 @@
+from janome.tokenizer import Tokenizer
 
-from collections import defaultdict
-dic = defaultdict(lambda: 'a',dic)
-print(dic['a'])
+t = Tokenizer()
+for token in t.tokenize(u'おはよう'):
+  print(token)

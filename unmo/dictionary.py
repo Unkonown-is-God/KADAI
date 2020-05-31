@@ -13,7 +13,7 @@ class Dictionary:
     プロパティ
     random -- ランダム辞書
     pattern -- パターン辞書'''
-
+    
     DICT={'random':'dics/random.txt',
           'pattern':'dics/pattern.txt',
           'template':'dics/template.txt',
@@ -64,8 +64,8 @@ class Dictionary:
             markov.load(filename)
         except IOError as e:
             print(format_error(e))
-        except EOFError:
-            print('q')
+        except EOFError as e:
+            print(format_error(e))
         return markov
 
     def study(self,text,parts):
